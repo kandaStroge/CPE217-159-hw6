@@ -234,6 +234,8 @@ public class BSTree extends BTreePrinter {
     
     public static boolean isMergeable(Node r1, Node r2){
         //2 nodes can merge if r1's maximum value still less than r2's minimum value
+        if(r1 == null || r2 == null)
+            return true;
         return findMax(r1).key < findMin(r2).key;
     }
     
@@ -241,10 +243,12 @@ public class BSTree extends BTreePrinter {
         if (isMergeable(r1, r2)) {
             //set t'ss left-subtree
             t.left = r1;
-            r1.parent = t;
+            if(r1 != null)
+                r1.parent = t;
             //set t's right-subtree
             t.right = r2;
-            r2.parent = t;
+            if(r2 != null)
+                r2.parent = t;
             return t;
         } else {
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
@@ -273,11 +277,11 @@ public class BSTree extends BTreePrinter {
             return list;
         }else if (key < r.key){
             list = split(r.left, key);
-            list.r2 = mergeWithRoot(list.r2, r.right, r);
+            list.r2 = mergeWithRoot(list.r2, r.right, new Node(r.key));
             return list;
         }else{ // key>=root.key
             list = split(r.right, key);
-            list.r1 = mergeWithRoot(r.left, list.r1, r);
+            list.r1 = mergeWithRoot(r.left, list.r1, new Node(r.key));
             return list;
         }
     }

@@ -38,6 +38,7 @@ public class Main {
         System.out.println("---- Test6 singleRotateFromRight at Lv 1 ----");
         tree.singleRotateFromRight(tree.find(8));
         tree.printTree();*/
+
         //Test 2
         /*System.out.println("---- Test7 doubleRotateFromRight at Lv 1 ----");
         tree.doubleRotateFromRight(tree.find(8));
@@ -62,6 +63,7 @@ public class Main {
         tree=generateTree1();
         tree.doubleRotateFromRight(tree.find(12));
         tree.printTree();*/
+
         //Test 3
         /*BSTree tree1 = new BSTree();
         int[] keyList = {3, 2, 5, 1, 4, 8, 7, 6};
@@ -75,5 +77,16 @@ public class Main {
         tree2.printTree();
         tree1.merge(tree2);
         tree1.printTree();*/
+
+        //Split tree test
+        BSTree tree2 = new BSTree();
+        tree2.insert(100);
+        tree2.insert(50);
+        tree2.insert(60);
+        tree2.insert(70);
+        tree2.insert(65);
+
+        tree2.split(65).printTree();
+        tree.split(5).printTree();
     }
 }
