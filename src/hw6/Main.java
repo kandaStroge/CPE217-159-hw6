@@ -39,5 +39,41 @@ public class Main {
         tree.singleRotateFromRight(tree.find(8));
         tree.printTree();*/
         //Test 2
+        /*System.out.println("---- Test7 doubleRotateFromRight at Lv 1 ----");
+        tree.doubleRotateFromRight(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test8 doubleRotateFromLeft at Lv 1 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test9.1 doubleRotateFromLeft at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test9.2 doubleRotateFromLeft at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(12));
+        tree.printTree();
+        System.out.println("---- Test10.1 doubleRotateFromRight at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromRight(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test10.2 doubleRotateFromRight at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromRight(tree.find(12));
+        tree.printTree();*/
+        //Test 3
+        /*BSTree tree1 = new BSTree();
+        int[] keyList = {3, 2, 5, 1, 4, 8, 7, 6};
+        for (int i=0; i<keyList.length; i++)
+            tree1.insert(keyList[i]);
+        BSTree tree2 = new BSTree();
+        keyList = new int[]{9, 11, 10};
+        for (int i=0; i<keyList.length; i++)
+            tree2.insert(keyList[i]);
+        tree1.printTree();
+        tree2.printTree();
+        tree1.merge(tree2);
+        tree1.printTree();*/
     }
 }

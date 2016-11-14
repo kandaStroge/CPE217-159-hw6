@@ -1,6 +1,6 @@
 package hw6;
 
-public class AVLTree extends BTreePrinter {
+public class AVLTree extends BTreePrinter{
 
     Node root;
 
