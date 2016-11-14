@@ -14,6 +14,30 @@ public class Main {
         BSTree tree;
         tree = generateTree1();
         tree.printTree();
- 
+        //Test 1
+        /*System.out.println("---- Test1 singleRotateFromLeft at Lv 3 ----");
+        tree.singleRotateFromLeft(tree.find(6));
+        tree.singleRotateFromLeft(tree.find(2));
+        tree.printTree();
+        System.out.println("---- Test2 singleRotateFromRight at Lv 3 ----");
+        tree = generateTree1();
+        tree.singleRotateFromRight(tree.find(10));
+        tree.singleRotateFromRight(tree.find(14));
+        tree.printTree();
+        System.out.println("---- Test3 singleRotateFromLeft at Lv 2 ----");
+        tree = generateTree1();
+        tree.singleRotateFromLeft(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test4 singleRotateFromRight at Lv 2 ----");
+        tree = generateTree1();
+        tree.singleRotateFromRight(tree.find(12));
+        tree.printTree();
+        System.out.println("---- Test5 singleRotateFromLeft at Lv 1 ----");
+        tree.singleRotateFromLeft(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test6 singleRotateFromRight at Lv 1 ----");
+        tree.singleRotateFromRight(tree.find(8));
+        tree.printTree();*/
+        //Test 2
     }
 }

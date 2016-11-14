@@ -89,19 +89,61 @@ public class BSTree extends BTreePrinter {
     
     
     public void singleRotateFromLeft(Node y) {
-        // Do something
+        Node tmp = y.left;
+        //shift y's left-subtree to be tmp's right-subtree and vise versa
+        y.left = tmp.right;
+        if(tmp.right != null)
+            tmp.right.parent = y;
+
+        //shift y's parent to be parent of tmp
+        tmp.parent = y.parent;
+        if(y != root)//if y is root, y's parent is null, so we unable to access to null's child
+        {
+            if(y.parent.left == y)
+                y.parent.left = tmp;
+            else
+                y.parent.right = tmp;
+            tmp.right = y;
+
+        }
+        else//so if y is root, we have to assign tmp as a root, otherwise, root will be y; no longer root of a tree
+            root = tmp;
+        //shift y to be tmp's right child
+        y.parent = tmp;
+        tmp.right = y;
     }
 
     public void singleRotateFromRight(Node y) {
-        // Do something
+        Node tmp = y.right;
+
+        y.right = tmp.left;
+        if(tmp.left != null)
+            tmp.left.parent = y;
+
+        if(y != root)
+        {
+            tmp.parent = y.parent;
+            if(y.parent.left == y)
+                y.parent.left = tmp;
+            else
+                y.parent.right = tmp;
+        }
+        else
+            root = tmp;
+
+        y.parent = tmp;
+        tmp.left = y;
     }
 
     public void doubleRotateFromLeft(Node y) {
-        // Do something
+        //do single rotation 2 times
+        singleRotateFromRight(y.left);
+        singleRotateFromLeft(y);
     }
 
     public void doubleRotateFromRight(Node y) {
-        // Do something
+        singleRotateFromLeft(y.right);
+        singleRotateFromRight(y);
     }
 
     // You should have "root node deletion" in this function
