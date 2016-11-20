@@ -1,10 +1,18 @@
 package hw6;
 
-public class Node{
+public class Node extends BTreePrinter{
     Node left;
     Node right;
     Node parent;
     int key;
+
+    public void printTree() {
+        if (this == null) {
+            System.out.println("Empty tree!!!");
+        } else {
+            super.printTree(this);
+        }
+    }
     
     public Node(int data){
         this.key = data;
@@ -20,6 +28,6 @@ public class Node{
 
     public boolean isImbalance(){
         //return true if left and right subtree's height difference <= 1
-        return Math.abs(height(this.left) - height(this.right)) <= 1;
+        return Math.abs(height(this.left) - height(this.right)) > 1;
     }
 }

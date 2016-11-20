@@ -66,12 +66,9 @@ public class AVLTree extends BTreePrinter{
             root = new Node(key);
         } else {
             insert(this, root, key);
-            rebalance(this, root);
         }
     }
 
-    // Fix this function to have the rebalancing feature
-    // There should be rebalance function calling somewhere in the code
     public static void insert(AVLTree tree, Node node, int key) {
         if (key == node.key) {
             System.out.println("Duplicated key:" + key);
@@ -90,6 +87,9 @@ public class AVLTree extends BTreePrinter{
                 insert(tree, node.right, key);
             }
         }
+        //rebalance right after insertion, it has some cases that the height from left and right-subtree is balance
+        //but in fact, it's not
+        rebalance(tree, node);
     }
 
     public static void rebalance(AVLTree tree, Node node){
@@ -115,7 +115,7 @@ public class AVLTree extends BTreePrinter{
                     System.out.println("Perform SingleRotationFromRight (Node " + node.key +")");
                     tree.singleRotateFromRight(node);
                 } else { // Inner?
-                    System.out.println("Perform DoubleRotationFromRight (Node " + node.key +")"); // fix ???
+                    System.out.println("Perform DoubleRotationFromRight (Node " + node.key +")");
                     tree.doubleRotateFromRight(node);
                 }
             }
@@ -154,9 +154,9 @@ public class AVLTree extends BTreePrinter{
         if(tmp.left != null)
             tmp.left.parent = y;
 
+        tmp.parent = y.parent;
         if(y != root)
         {
-            tmp.parent = y.parent;
             if(y.parent.left == y)
                 y.parent.left = tmp;
             else
@@ -180,9 +180,6 @@ public class AVLTree extends BTreePrinter{
         singleRotateFromRight(y);
     }
 
-    // Fix this function to have the rebalancing feature
-    // There should be rebalance function calling somewhere in the code
-    // This function will delete root or call the recursive delete function
     public void delete(int key) {
         if (root == null) {
             System.out.println("Empty Tree!!!");
@@ -196,6 +193,8 @@ public class AVLTree extends BTreePrinter{
                 root = temp;
                 // recursively delete the node
                 delete(this, root.right, minRightSubTree.key);
+                //check if root is balance, delete above balance till its first right-subtree
+                rebalance(this, root);
             } else if (root.left != null) { // Case 2 (single child, left child)
                 root = root.left; // promote the left child to the root
             } else { // Case 2 (single child, right child)
@@ -204,12 +203,8 @@ public class AVLTree extends BTreePrinter{
         } else { // Delete non-root node
             delete(this, root, key);
         }
-        rebalance(this, root);
     }
 
-    // Fix this function to have the rebalancing feature
-    // There should be rebalance function calling somewhere in the code
-    // This function will delete non-root nodes
     public static void delete(AVLTree tree, Node node, int key) {
         if (node==null)
         {
@@ -248,6 +243,7 @@ public class AVLTree extends BTreePrinter{
                 }
             }
         }
+        rebalance(tree, node);
     }
     
     // Replace node1 with a new node2
@@ -280,10 +276,23 @@ public class AVLTree extends BTreePrinter{
     }
     
     public static Node mergeWithRoot(Node r1, Node r2, Node t){
+        //the given node are assumed as a AVL balanced tree
         if (isMergeable(r1, r2)){
-            // Do something
-            // Do not forget to rebalance
-            return null; // fix this
+            //set t's left-subtree
+            t.left = r1;
+            if(r1 != null)
+                r1.parent = t;
+
+            //set t's right-subtree
+            t.right = r2;
+            if(r2 != null)
+                r2.parent = t;
+
+            //make new tree and rebalance itself
+            //it works if the given node is balance , if not, it won't work
+            AVLTree tree = new AVLTree(t);
+            rebalance(tree, tree.root);
+            return tree.root;
         }else{
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
             return null;
@@ -292,7 +301,10 @@ public class AVLTree extends BTreePrinter{
           
     public void merge(AVLTree tree2){
         if (isMergeable(this.root, tree2.root)){
-            // do something
+            //make temporary node to hold maximum value of this current tree
+            Node newRoot = new Node(this.findMax().key);
+            delete(newRoot.key); //delete this maximum key node
+            root = mergeWithRoot(this.root, tree2.root, newRoot);
         }else{
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
         }
@@ -300,10 +312,24 @@ public class AVLTree extends BTreePrinter{
     }
     
     public NodeList split(int key){
-        return new NodeList();// This is incorrect, fix this by calling the static split
+
+        return split(root, key);
     }
     public static NodeList split(Node r, int key){
         NodeList list = new NodeList();
-        return list; // Fix this
+        if (r == null){
+            //terminate recursion state
+            return list;
+        }else if (key < r.key){
+            list = split(r.left, key);
+            //merge nodelist's r2 with current node's right subtree using new node with current node key as a root
+            list.r2 = mergeWithRoot(list.r2, r.right, new Node(r.key));
+            return list;
+        }else{ // key>=root.key
+            list = split(r.right, key);
+            //merge current node's left subtree with nodelist's r1 using new node with current node key as a root
+            list.r1 = mergeWithRoot(r.left, list.r1, new Node(r.key));
+            return list;
+        }
     }
 }

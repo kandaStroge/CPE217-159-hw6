@@ -120,9 +120,9 @@ public class BSTree extends BTreePrinter {
         if(tmp.left != null)
             tmp.left.parent = y;
 
+        tmp.parent = y.parent;
         if(y != root)
         {
-            tmp.parent = y.parent;
             if(y.parent.left == y)
                 y.parent.left = tmp;
             else
