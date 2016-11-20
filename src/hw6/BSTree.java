@@ -274,13 +274,16 @@ public class BSTree extends BTreePrinter {
     public static NodeList split(Node r, int key){
         NodeList list = new NodeList();
         if (r == null){
+            //terminate recursion state
             return list;
         }else if (key < r.key){
             list = split(r.left, key);
+            //merge nodelist's r2 with current node's right subtree using new node with current node key as a root
             list.r2 = mergeWithRoot(list.r2, r.right, new Node(r.key));
             return list;
         }else{ // key>=root.key
             list = split(r.right, key);
+            //merge current node's left subtree with nodelist's r1 using new node with current node key as a root
             list.r1 = mergeWithRoot(r.left, list.r1, new Node(r.key));
             return list;
         }

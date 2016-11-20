@@ -11,9 +11,10 @@ public class Main {
     }
     public static void main(String[] args) {
 
-        BSTree tree;
+        //BSTree tests
+        /*BSTree tree;
         tree = generateTree1();
-        tree.printTree();
+        tree.printTree();*/
         //Test 1
         /*System.out.println("---- Test1 singleRotateFromLeft at Lv 3 ----");
         tree.singleRotateFromLeft(tree.find(6));
@@ -79,7 +80,7 @@ public class Main {
         tree1.printTree();*/
 
         //Split tree test
-        BSTree tree2 = new BSTree();
+        /*BSTree tree2 = new BSTree();
         tree2.insert(100);
         tree2.insert(50);
         tree2.insert(60);
@@ -87,6 +88,8 @@ public class Main {
         tree2.insert(65);
 
         tree2.split(65).printTree();
-        tree.split(5).printTree();
+        tree.split(5).printTree();*/
+
+        //AVL tree tests
     }
 }
