@@ -19,6 +19,7 @@ public class Node{
     }
 
     public boolean isImbalance(){
-        return false; // fix this
+        //return true if left and right subtree's height difference <= 1
+        return Math.abs(height(this.left) - height(this.right)) <= 1;
     }
 }

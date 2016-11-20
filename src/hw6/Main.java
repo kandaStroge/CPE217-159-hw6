@@ -14,6 +14,79 @@ public class Main {
         BSTree tree;
         tree = generateTree1();
         tree.printTree();
- 
+        //Test 1
+        /*System.out.println("---- Test1 singleRotateFromLeft at Lv 3 ----");
+        tree.singleRotateFromLeft(tree.find(6));
+        tree.singleRotateFromLeft(tree.find(2));
+        tree.printTree();
+        System.out.println("---- Test2 singleRotateFromRight at Lv 3 ----");
+        tree = generateTree1();
+        tree.singleRotateFromRight(tree.find(10));
+        tree.singleRotateFromRight(tree.find(14));
+        tree.printTree();
+        System.out.println("---- Test3 singleRotateFromLeft at Lv 2 ----");
+        tree = generateTree1();
+        tree.singleRotateFromLeft(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test4 singleRotateFromRight at Lv 2 ----");
+        tree = generateTree1();
+        tree.singleRotateFromRight(tree.find(12));
+        tree.printTree();
+        System.out.println("---- Test5 singleRotateFromLeft at Lv 1 ----");
+        tree.singleRotateFromLeft(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test6 singleRotateFromRight at Lv 1 ----");
+        tree.singleRotateFromRight(tree.find(8));
+        tree.printTree();*/
+
+        //Test 2
+        /*System.out.println("---- Test7 doubleRotateFromRight at Lv 1 ----");
+        tree.doubleRotateFromRight(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test8 doubleRotateFromLeft at Lv 1 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(8));
+        tree.printTree();
+        System.out.println("---- Test9.1 doubleRotateFromLeft at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test9.2 doubleRotateFromLeft at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromLeft(tree.find(12));
+        tree.printTree();
+        System.out.println("---- Test10.1 doubleRotateFromRight at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromRight(tree.find(4));
+        tree.printTree();
+        System.out.println("---- Test10.2 doubleRotateFromRight at Lv 2 ----");
+        tree=generateTree1();
+        tree.doubleRotateFromRight(tree.find(12));
+        tree.printTree();*/
+
+        //Test 3
+        /*BSTree tree1 = new BSTree();
+        int[] keyList = {3, 2, 5, 1, 4, 8, 7, 6};
+        for (int i=0; i<keyList.length; i++)
+            tree1.insert(keyList[i]);
+        BSTree tree2 = new BSTree();
+        keyList = new int[]{9, 11, 10};
+        for (int i=0; i<keyList.length; i++)
+            tree2.insert(keyList[i]);
+        tree1.printTree();
+        tree2.printTree();
+        tree1.merge(tree2);
+        tree1.printTree();*/
+
+        //Split tree test
+        BSTree tree2 = new BSTree();
+        tree2.insert(100);
+        tree2.insert(50);
+        tree2.insert(60);
+        tree2.insert(70);
+        tree2.insert(65);
+
+        tree2.split(65).printTree();
+        tree.split(5).printTree();
     }
 }

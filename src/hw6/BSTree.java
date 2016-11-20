@@ -89,19 +89,61 @@ public class BSTree extends BTreePrinter {
     
     
     public void singleRotateFromLeft(Node y) {
-        // Do something
+        Node tmp = y.left;
+        //shift y's left-subtree to be tmp's right-subtree and vise versa
+        y.left = tmp.right;
+        if(tmp.right != null)
+            tmp.right.parent = y;
+
+        //shift y's parent to be parent of tmp
+        tmp.parent = y.parent;
+        if(y != root)//if y is root, y's parent is null, so we unable to access to null's child
+        {
+            if(y.parent.left == y)
+                y.parent.left = tmp;
+            else
+                y.parent.right = tmp;
+            tmp.right = y;
+
+        }
+        else//so if y is root, we have to assign tmp as a root, otherwise, root will be y; no longer root of a tree
+            root = tmp;
+        //shift y to be tmp's right child
+        y.parent = tmp;
+        tmp.right = y;
     }
 
     public void singleRotateFromRight(Node y) {
-        // Do something
+        Node tmp = y.right;
+
+        y.right = tmp.left;
+        if(tmp.left != null)
+            tmp.left.parent = y;
+
+        if(y != root)
+        {
+            tmp.parent = y.parent;
+            if(y.parent.left == y)
+                y.parent.left = tmp;
+            else
+                y.parent.right = tmp;
+        }
+        else
+            root = tmp;
+
+        y.parent = tmp;
+        tmp.left = y;
     }
 
     public void doubleRotateFromLeft(Node y) {
-        // Do something
+        //do single rotation 2 times
+        singleRotateFromRight(y.left);
+        singleRotateFromLeft(y);
     }
 
     public void doubleRotateFromRight(Node y) {
-        // Do something
+        singleRotateFromLeft(y.right);
+        singleRotateFromRight(y);
     }
 
     // You should have "root node deletion" in this function
@@ -191,13 +233,23 @@ public class BSTree extends BTreePrinter {
 
     
     public static boolean isMergeable(Node r1, Node r2){
-        return false;// Fix this
+        //2 nodes can merge if r1's maximum value still less than r2's minimum value
+        if(r1 == null || r2 == null)
+            return true;
+        return findMax(r1).key < findMin(r2).key;
     }
     
     public static Node mergeWithRoot(Node r1, Node r2, Node t){
         if (isMergeable(r1, r2)) {
-            // Fix this
-            return null;
+            //set t'ss left-subtree
+            t.left = r1;
+            if(r1 != null)
+                r1.parent = t;
+            //set t's right-subtree
+            t.right = r2;
+            if(r2 != null)
+                r2.parent = t;
+            return t;
         } else {
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
             return null;
@@ -206,7 +258,10 @@ public class BSTree extends BTreePrinter {
           
     public void merge(BSTree tree2){
         if (isMergeable(this.root, tree2.root)){
-            // Do something
+            //make temporary node to hold maximum value of this current tree
+            Node newRoot = new Node(this.findMax().key);
+            delete(newRoot.key); //delete this maximum key node
+            root = mergeWithRoot(this.root, tree2.root, newRoot);
         }else{
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
         }
@@ -214,17 +269,19 @@ public class BSTree extends BTreePrinter {
     }
     
     public NodeList split(int key){
-        return new NodeList(); // This is incorrect, fix this by calling static split
+        return split(root, key);
     }
     public static NodeList split(Node r, int key){
         NodeList list = new NodeList();
         if (r == null){
             return list;
         }else if (key < r.key){
-            // Do something
+            list = split(r.left, key);
+            list.r2 = mergeWithRoot(list.r2, r.right, new Node(r.key));
             return list;
         }else{ // key>=root.key
-            // Do something
+            list = split(r.right, key);
+            list.r1 = mergeWithRoot(r.left, list.r1, new Node(r.key));
             return list;
         }
     }
