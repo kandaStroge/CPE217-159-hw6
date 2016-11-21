@@ -240,7 +240,7 @@ public class Main {
         //Final test
         BSTree tree1 = new BSTree();
         long start = System.currentTimeMillis();
-        int N = 6000;
+        int N = 14000;
         for (int i = 0; i < N; i++) {
             tree1.insert(i);
         }
