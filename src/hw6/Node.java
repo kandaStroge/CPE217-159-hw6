@@ -27,7 +27,7 @@ public class Node extends BTreePrinter{
     }
 
     public boolean isImbalance(){
-        //return true if left and right subtree's height difference <= 1
+        //return true if left and right subtree's height difference > 1
         return Math.abs(height(this.left) - height(this.right)) > 1;
     }
 }
