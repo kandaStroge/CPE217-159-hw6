@@ -92,16 +92,19 @@ public class AVLTree extends BTreePrinter{
         rebalance(tree, node);
     }
 
+    //this method only works when it's called from bottom to top
+    //some cases, for instance, left and right-subtree have the same height but unbalanced from their subtrees
+    //this method won't execute
     public static void rebalance(AVLTree tree, Node node){
         if (node.isImbalance()){
             //simply go down to check if lower subtree do imbalance
-            if (Node.height(node)>2){
+            /*if (Node.height(node)>2){
                 if (Node.height(node.left) > Node.height(node.right)){
                     rebalance(tree, node.left);
                 }else{
                     rebalance(tree, node.right);
                 }
-            }
+            }*/
             if (Node.height(node.left) > Node.height(node.right)) { // Left heavy?
                 if (Node.height(node.left.left) > Node.height(node.left.right)) { // Outer?
                     System.out.println("Perform SingleRotationFromLeft (Node " + node.key +")");
@@ -278,21 +281,40 @@ public class AVLTree extends BTreePrinter{
     public static Node mergeWithRoot(Node r1, Node r2, Node t){
         //the given node are assumed as a AVL balanced tree
         if (isMergeable(r1, r2)){
-            //set t's left-subtree
-            t.left = r1;
-            if(r1 != null)
-                r1.parent = t;
+            if(Math.abs(Node.height(r1) - Node.height(r2)) <= 1)
+            {
+                //set t's left-subtree
+                t.left = r1;
+                if(r1 != null)
+                    r1.parent = t;
 
-            //set t's right-subtree
-            t.right = r2;
-            if(r2 != null)
-                r2.parent = t;
-
+                //set t's right-subtree
+                t.right = r2;
+                if(r2 != null)
+                    r2.parent = t;
+                return t;
+            }
+            else if(Node.height(r1) > Node.height(r2))
+            {
+                Node r = mergeWithRoot(r1.right, r2, t);
+                r1.right = r;
+                r.parent = r1;
+                AVLTree tree = new AVLTree(r1);
+                rebalance(tree, r1);
+                return tree.root;
+            }
+            else
+            {
+                //r2.height > r1.height
+                Node r = mergeWithRoot(r1, r2.left, t);
+                r2.left = r;
+                r.parent = r2;
+                AVLTree tree = new AVLTree(r2);
+                rebalance(tree, r2);
+                return tree.root;
+            }
             //make new tree and rebalance itself
             //it works if the given node is balance , if not, it won't work
-            AVLTree tree = new AVLTree(t);
-            rebalance(tree, tree.root);
-            return tree.root;
         }else{
             System.out.println("All nodes in T1 must be smaller than all nodes from T2");
             return null;

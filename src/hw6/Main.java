@@ -150,13 +150,13 @@ public class Main {
         tree1.merge(tree2);
         tree1.printTree();*/
 
-        AVLTree tree1 = new AVLTree();
+        /*AVLTree tree1 = new AVLTree();
         int[] keyList = {1, 15, 3, 13, 5, 11, 9, 10, 8, 4, 12, 7, 2, 6, 14};
         for (int i=0; i<keyList.length; i++)
             tree1.insert(keyList[i]);
         tree1.printTree();
         NodeList list = tree1.split(7);
         (new AVLTree(list.r1)).printTree();
-        (new AVLTree(list.r2)).printTree();
+        (new AVLTree(list.r2)).printTree();*/
     }
 }
