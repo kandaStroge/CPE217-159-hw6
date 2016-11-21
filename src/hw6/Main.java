@@ -158,5 +158,20 @@ public class Main {
         NodeList list = tree1.split(7);
         (new AVLTree(list.r1)).printTree();
         (new AVLTree(list.r2)).printTree();*/
+
+        AVLTree t1 = new AVLTree();
+        AVLTree t2 = new AVLTree();
+        for(int i = 0; i < 3; i++)
+            t1.insert(i+1);
+        for(int i = 0; i < 50; i++)
+            t2.insert(i+4);
+        System.out.println("Tree1");
+        t1.printTree();
+        System.out.println("Tree2");
+        t2.printTree();
+
+        t1.merge(t2);
+        System.out.println("Tree1 after merging");
+        t1.printTree();
     }
 }
