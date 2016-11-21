@@ -9,7 +9,7 @@ public class SplayTree extends BTreePrinter{
     
     public SplayTree(Node root){
         
-        if (root.parent!=null){ // To make sure the root has no parent
+        if (root.parent == null){ // To make sure the root has no parent
             if (root.key < root.parent.key){
                 root.parent.left = null;
             }else{
@@ -25,15 +25,14 @@ public class SplayTree extends BTreePrinter{
     }
     
     public Node find(int search_key) {
-        return root; // fix this
+        splay(findWithoutSplaying(search_key));
+        return root;
     }
 
-    // This function is already complete, no need to modify
     public Node findWithoutSplaying(int search_key) {
         return find(root, search_key);
     }
-    
-    // This function is already complete, no need to modify
+
     private static Node find(Node node, int search_key) {
         if (search_key == node.key) {
             return node;
@@ -45,13 +44,11 @@ public class SplayTree extends BTreePrinter{
             return null;
         }
     }
-    
-    // This function is already complete, no need to modify
+
     private Node findMin() {
         return findMin(root);
     }
 
-    // This function is already complete, no need to modify
     private static Node findMin(Node node) {
         if (node.left == null) {
             return node;
@@ -59,8 +56,7 @@ public class SplayTree extends BTreePrinter{
             return findMin(node.left);
         }
     }
-    
-    // This function is already complete, no need to modify
+
     public void insert(int key) {
         if (root == null) {
             root = new Node(key);
@@ -77,6 +73,7 @@ public class SplayTree extends BTreePrinter{
             if (node.left == null) {
                 node.left = new Node(key);
                 node.left.parent = node;
+                tree.splay(node.left);
             } else {
                 insert(tree, node.left, key);
             }
@@ -84,14 +81,30 @@ public class SplayTree extends BTreePrinter{
             if (node.right == null) {
                 node.right = new Node(key);
                 node.right.parent = node;
+                tree.splay(node.right);
             } else {
                 insert(tree, node.right, key);
             }
         }
+        //we splay the inserted node just one time
+        //it means that we have to call spay() right after adding the node
     }
     
     
     public void delete(int key) {
+        if(find(key) == null)
+        {
+            System.out.println("Node not found");
+            return;
+        }
+        //find the node; that node is already at the root
+        SplayTree tree = new SplayTree(root.right);
+        tree.splay(tree.findMin());
+        //tree.root.left is null
+        //because we splayed the minimum key from the tree, means that it has no left subtree.
+        tree.root.left = this.root.left;
+        root = tree.root;
+
         // To delete a key in a splay tree, do the following steps
         // 1. splay node with the key to the root of tree1
         // 2. create another tree using the node of the right-subtree (tree2)
@@ -102,39 +115,44 @@ public class SplayTree extends BTreePrinter{
     
     // Use this function to call zigzig or zigzag
     public void splay(Node node){
-        if (node!=null && node != root){
+        if (node != null && node != root){
             if (node.parent == root){
-                // Do something (just add one line of code)
+                zig(node);
             }else{
+                //node's parent isn't root
                 if (node.key < node.parent.key){
                     if (node.parent.key < node.parent.parent.key){
                         // Left outer case
-                        // Do something (just add one line of code)
+                        zigzig(node);
                     }else{
                         // Left inner case
-                        // Do something (just add one line of code)
+                        zigzag(node);
                     }
                 }else{
                     if (node.parent.key > node.parent.parent.key){
                         // Right outer case
-                        // Do something (just add one line of code)
+                        zigzig(node);
                     }else{
-                        // Do something (just add one line of code)
+                        // Left inner case
+                        zigzag(node);
                     }
                 }
-                // Do something (just add one line of code)
+                //work recursively until it terminates at root, or null
+                splay(node);
             }
         }
     }
     
     // Use this function to call zig
     public void zigzig(Node node){ // Move two nodes up along the Outer path
-        // Do something
+        zig(node.parent);
+        zig(node);
     }
     
-    // Use this funciton to call zig
+    // Use this function to call zig
     public void zigzag(Node node){ // Move two nodes up along the Inner path
-        // Do something
+        zig(node);
+        zig(node);
     }
     
     // This function should be called by zigzig or zigzag
@@ -143,16 +161,43 @@ public class SplayTree extends BTreePrinter{
             System.out.println("Cannot perform Zig operation on the root node");
         }else if (node.parent == root){ // If the node is a child of the root
             if (node.key<node.parent.key){// Zig from left
-                // Do something
+                root.left = node.right;
+                if(node.right != null)
+                    node.right.parent = root;
+                node.right = root;
             }else{ // Zig from right
-                // Do something
+                root.right = node.left;
+                if(node.left != null)
+                    node.left.parent = root;
+                node.left = root;
             }
+            node.parent = null;
+            root.parent = node;
+            root = node;
         }else{// if the node is not a child of the root
+            Node p = node.parent;
             if (node.key<node.parent.key){// Zig from left
-                // Do something
+                p.left = node.right;
+                if(node.right != null)
+                    node.right.parent = p;
+                node.right = p;
             }else{
-                // Do something
+                // Zig from right
+                p.right = node.left;
+                if(node.left != null)
+                    node.left.parent = p;
+                node.left = p;
             }
+            node.parent = p.parent;
+            if(p.parent.key > p.key)
+            {
+                p.parent.left = node;
+            }
+            else
+            {
+                p.parent.right = node;
+            }
+            p.parent = node;
         }
     }
 }

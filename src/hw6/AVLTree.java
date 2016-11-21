@@ -87,8 +87,9 @@ public class AVLTree extends BTreePrinter{
                 insert(tree, node.right, key);
             }
         }
-        //rebalance right after insertion, it has some cases that the height from left and right-subtree is balance
-        //but in fact, it's not
+        //rebalance right after insertion, it has some cases
+        //that the height from left and right-subtree is balance
+        //if we check from root, but in fact, it's not
         rebalance(tree, node);
     }
 
