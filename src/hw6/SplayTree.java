@@ -9,7 +9,7 @@ public class SplayTree extends BTreePrinter{
     
     public SplayTree(Node root){
         
-        if (root.parent == null){ // To make sure the root has no parent
+        if (root.parent != null){ // To make sure the root has no parent
             if (root.key < root.parent.key){
                 root.parent.left = null;
             }else{
