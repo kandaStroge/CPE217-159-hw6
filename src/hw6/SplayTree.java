@@ -133,7 +133,7 @@ public class SplayTree extends BTreePrinter{
                         zigzig(node);
                     }else{
                         // Do something (just add one line of code)
-                        zigzag(node);
+                        zigzag(node); // do ziza
                     }
                 }
                 // Do something (just add one line of code)
