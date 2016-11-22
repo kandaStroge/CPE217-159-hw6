@@ -109,7 +109,7 @@ public class Main {
         tree.insert(1);
         tree.printTree();*/
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         AVLTree tree1 = new AVLTree();
         int[] keyList = {1, 15, 3, 13, 5, 11, 9, 10, 8, 4, 12, 7, 2, 6, 14};
         for (int i = 0; i < keyList.length; i++)
@@ -118,7 +118,7 @@ public class Main {
         NodeList list = tree1.split(7);
         (new AVLTree(list.r1)).printTree();
         (new AVLTree(list.r2)).printTree();
-    }*/
+    }
 
 
     /*public static void main(String[] args) {

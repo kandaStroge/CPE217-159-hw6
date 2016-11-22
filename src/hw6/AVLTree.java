@@ -1,5 +1,7 @@
 package hw6;
 
+import static hw6.Node.height;
+
 public class AVLTree extends BTreePrinter{
 
     Node root;
@@ -96,15 +98,15 @@ public class AVLTree extends BTreePrinter{
     // If you do not understant my code, feel free to implement your own code
     public static void rebalance(AVLTree tree, Node node){
         if (node.isImbalance()){
-            if (Node.height(node)>2){
-                if (Node.height(node.left) > Node.height(node.right)){
+            if (height(node)>2){
+                if (height(node.left) > height(node.right)){
                     rebalance(tree,node.left);
                 }else{
                     rebalance(tree,node.right);
                 }
             }
-            if (Node.height(node.left) > Node.height(node.right)) { // Left heavy?
-                if (Node.height(node.left.left) > Node.height(node.left.right)) { // Outer?
+            if (height(node.left) > height(node.right)) { // Left heavy?
+                if (height(node.left.left) > height(node.left.right)) { // Outer?
                     System.out.println("Perform SingleRotationFromLeft (Node " + node.key +")"); // fix ???
                     tree.singleRotateFromLeft(node);
                 }else{ // Inner?
@@ -112,7 +114,7 @@ public class AVLTree extends BTreePrinter{
                     tree.doubleRotateFromLeft(node);
                 }
             }else{ // Right heavy?
-                if (Node.height(node.right.right) > Node.height(node.right.left)) { //Outer?
+                if (height(node.right.right) > height(node.right.left)) { //Outer?
                     System.out.println("Perform SingleRotationFromRight (Node " + node.key +")"); // fix ???
                     tree.singleRotateFromRight(node);
                 } else { // Inner?
@@ -281,24 +283,29 @@ public class AVLTree extends BTreePrinter{
     }
     
     public static Node mergeWithRoot(Node r1, Node r2, Node t){
-        AVLTree tree = new AVLTree(t);
-        if (isMergeable(r1, r2)){
-            //set t'ss left-subtree
+        if(height(r1)-height(r2)<=1){
             t.left = r1;
-            if(r1 != null)
-                r1.parent = t;
-            //set t's right-subtree
             t.right = r2;
-            rebalance(tree, r1);
-            if(r2 != null)
-                r2.parent = t;
-            //rebalance new tree
-            rebalance(tree, r2);
+            if(r1 != null)r1.parent = t;
+            if(r2 != null)r2.parent = t;
+
             return t;
-        }else{
-            System.out.println("All nodes in T1 must be smaller than all nodes from T2");
-            return null;
-        }
+        }else if(height(r1)>height(r2)){
+            Node r = mergeWithRoot(r1.right,r2,t) ;
+            r1.right = r ;
+            r.parent=  r1 ;
+            AVLTree tree = new AVLTree(r1);
+            rebalance(tree, r1);
+            return tree.root;
+        }else if(height(r1)<height(r2)){
+            Node r = mergeWithRoot(r1, r2.left, t);
+            r2.left = r;
+            r.parent = r2;
+            AVLTree tree = new AVLTree(r2);
+            rebalance(tree, r2);
+            return tree.root;
+        }else System.out.println("All nodes in T1 must be smaller than all nodes from T2");
+        return null;
     }
           
     public void merge(AVLTree tree2){
